@@ -31,10 +31,8 @@ public class MainSurfaceView extends TextureView implements TextureView.SurfaceT
 
     private UnexpectedTerminationHelper mUnexpectedTerminationHelper = new UnexpectedTerminationHelper();
 
-
-
-
-
+    public void release() {
+    }
 
 
     private class UnexpectedTerminationHelper {

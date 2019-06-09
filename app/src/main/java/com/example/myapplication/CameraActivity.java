@@ -50,7 +50,7 @@ public class CameraActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
 
-        mainSurfaceView= findViewById(R.id.textureview);
+        mainSurfaceView = findViewById(R.id.textureview);
         wffrjni.EnableImageSaveForDebugging(1);
 
         CLRCameraDetectView = (CameraDetectView) findViewById(R.id.cameraDetect1);
@@ -78,10 +78,11 @@ public class CameraActivity extends AppCompatActivity {
                 });
             }
         });
+
     }
 
 
-    public  CameraActivity getInstance(){
+    public CameraActivity getInstance() {
         return this;
     }
 
@@ -95,8 +96,8 @@ public class CameraActivity extends AppCompatActivity {
         Rect displayRectangle = new Rect();
         Window window = this.getWindow();
         window.getDecorView().getWindowVisibleDisplayFrame(displayRectangle);
-        view.setMinimumWidth((int)(displayRectangle.width() * 0.5f));
-        view.setMinimumHeight((int)(displayRectangle.height() * 0.3f));
+        view.setMinimumWidth((int) (displayRectangle.width() * 0.5f));
+        view.setMinimumHeight((int) (displayRectangle.height() * 0.3f));
         builder.setView(view);
         final AlertDialog alertDialog = builder.create();
 
@@ -113,7 +114,7 @@ public class CameraActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //also check when firstname is not empty firstname should always be there!!
-                if (firstName.getText().length() > 0 ) {
+                if (firstName.getText().length() > 0) {
                     initEnroll(firstName.getText().toString());
 
                 } else {
@@ -124,19 +125,19 @@ public class CameraActivity extends AppCompatActivity {
         builder.show();
         Window windowDialog = alertDialog.getWindow();
         WindowManager.LayoutParams wlp = windowDialog.getAttributes();
-        wlp.width = (int)(displayRectangle.width() * 0.50f);
+        wlp.width = (int) (displayRectangle.width() * 0.50f);
         wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
         windowDialog.setAttributes(wlp);
     }
 
 
-    private void initEnroll(String firstName){
+    private void initEnroll(String firstName) {
         Toast.makeText(CameraActivity.this, "Hello " + firstName, Toast.LENGTH_SHORT).show();
         enroll_button.setChecked(true);
         enroll_button.setEnabled(false);
         name = firstName.toString();
         CLRCameraDetectView.isEnrolling(true);
-        mainSurfaceView.setEnrolledName(firstName,true);
+        mainSurfaceView.setEnrolledName(firstName, true);
         wffrsinglecamapp.setState(2);
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -147,14 +148,14 @@ public class CameraActivity extends AppCompatActivity {
                 enroll_button.setChecked(false);
                 enroll_button.setEnabled(true);
                 CLRCameraDetectView.isEnrolling(false);
-                mainSurfaceView.setEnrolledName("",false);
+                mainSurfaceView.setEnrolledName("", false);
 
             }
-        },12000);
+        }, 12000);
     }
 
-    private void copyAssets(){
-        if(!new AssetFileManager(this).checkFilesExist()){
+    private void copyAssets() {
+        if (!new AssetFileManager(this).checkFilesExist()) {
             (new AssetFileManager(this)).copyFilesFromAssets();//copies files from assests to cache folder
         }
         impFilesPath = (new AssetFileManager(CameraActivity.this).getFilePath()) + "/";
@@ -168,7 +169,7 @@ public class CameraActivity extends AppCompatActivity {
             @Override
             public void run() {
 
-                if (wffrsinglecamapp.finish_state==-1){
+                if (wffrsinglecamapp.finish_state == -1) {
                     finish();
                 }
 
@@ -176,14 +177,14 @@ public class CameraActivity extends AppCompatActivity {
                 String nameValuesCamera[] = wffrsinglecamapp.getNames();//get name Array from NDK
 
 
-                Log.i("DSDS","NAMES : "+ Arrays.toString(nameValuesCamera));
+                Log.i("DSDS", "NAMES : " + Arrays.toString(nameValuesCamera));
                 ArrayList<Integer> leftCornerValues = new ArrayList<>();
                 ArrayList<Integer> topCornerValues = new ArrayList<>();
                 ArrayList<Integer> rightCornerValues = new ArrayList<>();
                 ArrayList<Integer> bottomCornerValues = new ArrayList<>();
                 ArrayList<String> nameList = new ArrayList<>();
                 ArrayList<Float> confidenceValList = new ArrayList<>();
-                if(facesArray!=null){
+                if (facesArray != null) {
                     for (int i = 0; i < facesArray.length; i++) {//Run for all the faces detected
                         double perReduce = 0.1;
                         int redWidth = (int) (facesArray[i][2] * perReduce);
@@ -198,10 +199,10 @@ public class CameraActivity extends AppCompatActivity {
                         topCornerValues.add(i, topCornerValue);
                         rightCornerValues.add(i, rightCornerValue);
                         bottomCornerValues.add(i, bottomCornerValue);
-                        if (nameValuesCamera.length!=0){
+                        if (nameValuesCamera.length != 0) {
                             nameList.add(i, nameValuesCamera[i]);
                         }
-                        if (confidenceValuesCamera.length!=0){
+                        if (confidenceValuesCamera.length != 0) {
                             confidenceValList.add(i, confidenceValuesCamera[i]);
                         }
                     }
@@ -222,7 +223,7 @@ public class CameraActivity extends AppCompatActivity {
 
                     float scaleY = (float) CLRCameraDetectView.getHeight() / (float) imageHeight;
                     float scaleX = (float) CLRCameraDetectView.getWidth() / (float) imageWidth;
-                    CLRCameraDetectView.setScaleValues(scaleX,scaleY);
+                    CLRCameraDetectView.setScaleValues(scaleX, scaleY);
 
 
                 }
@@ -249,7 +250,7 @@ public class CameraActivity extends AppCompatActivity {
                         startActivity(i2);
                         return true;
                     case R.id.aboutus:
-                      //  showAboutusDialog();
+                        //  showAboutusDialog();
                         return true;
                     default:
                         return false;
@@ -259,20 +260,30 @@ public class CameraActivity extends AppCompatActivity {
         popup.show();
     }
 
-  /*  private void showAboutusDialog(){
-        Dialog dialog = new Dialog(CameraActivity.this,R.style.AlertDialogCustom);
-        // Include dialog.xml file
-        dialog.setContentView(R.layout.about_us_dialog);
-        // Set dialog title
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.show();
-        dialog.setCancelable(true);
+    /*  private void showAboutusDialog(){
+          Dialog dialog = new Dialog(CameraActivity.this,R.style.AlertDialogCustom);
+          // Include dialog.xml file
+          dialog.setContentView(R.layout.about_us_dialog);
+          // Set dialog title
+          dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+          dialog.show();
+          dialog.setCancelable(true);
+      }
+  */
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
-*/
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
 
+    }
+
+    public void startCheck(View view) {
+        CheckActivity.startActivity(this);
     }
 }
