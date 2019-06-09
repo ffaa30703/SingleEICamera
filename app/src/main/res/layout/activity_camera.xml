@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CameraActivity">
+
+    <com.example.myapplication.cameraController.MainSurfaceView
+        android:id="@+id/textureview"
+        android:layout_width="640dp"
+        android:layout_height="480dp"
+        android:layout_centerInParent="true"
+        app:msv_cameraFront="false" />
+
+    <com.example.myapplication.Utils.CameraDetectView
+        android:id="@+id/cameraDetect1"
+        android:layout_width="640dp"
+        android:layout_height="480dp"
+        android:layout_centerInParent="true" />
+
+
+    <ToggleButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textOn="Enrolling"
+        android:textOff="Enroll"
+        android:textColor="@android:color/white"
+        android:layout_alignParentRight="true"
+        android:layout_above="@+id/setting_button"
+        android:id="@+id/enroll_button"/>
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/setting_button"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/setting"
+        android:layout_margin="10dp"/>
+</RelativeLayout>

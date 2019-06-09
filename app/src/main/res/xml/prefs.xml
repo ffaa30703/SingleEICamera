@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.example.myapplication.Utils.SeekBarPreference
+        android:defaultValue="50"
+        android:key="threshold"
+        android:summary="Set the minimum value of Recognizing Threshold"
+        android:title="Recognizing Threshold" />
+    <Preference
+        android:key="list_database"
+        android:title="Enrolled Records"
+        android:summary="It will Show List Of People Enrolled"></Preference>
+    <Preference
+        android:key="delete_database"
+        android:title="Clear Database"
+        android:summary="It will clear all saved enrolled records"></Preference>
+
+    <SwitchPreference
+        android:key="debug_switch"
+        android:title="Debug Mode"></SwitchPreference>
+</PreferenceScreen>
