@@ -5,9 +5,12 @@ import android.content.Intent;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -20,9 +23,10 @@ import com.wf.wffrsinglecamapp;
 import java.io.File;
 
 public class CheckActivity extends AppCompatActivity {
-    private static final String TO_ENCROLL_DIR_PATH = "/mnt/sdcard/face";
-    private static final String TO_RECONIGE_DIR_PATH = "/mnt/sdcard/recognize";
+    private static final String TO_ENCROLL_DIR_PATH = "/mnt/sdcard/face/";
+    private static final String TO_RECONIGE_DIR_PATH = "/mnt/sdcard/recognize/";
     private int faceCount;
+    private RecognizeAdapter recognizeAdapter;
 
 
     public static void startActivity(Context context) {
@@ -31,7 +35,9 @@ public class CheckActivity extends AppCompatActivity {
 
     private Button btEncroll;
     private TextView tvFaceCount;
+    private TextView tvRst;
     private boolean inEncroll = false;
+    RecyclerView rcvRst;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,18 +45,29 @@ public class CheckActivity extends AppCompatActivity {
         setContentView(R.layout.activity_check);
         btEncroll = findViewById(R.id.bt_encroll);
         tvFaceCount = findViewById(R.id.tv_facecount);
+        tvRst = findViewById(R.id.tv_rst);
+        rcvRst = findViewById(R.id.rcv_recognize_rst);
+        rcvRst.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recognizeAdapter = new RecognizeAdapter();
+        rcvRst.setAdapter(recognizeAdapter);
 
 
         String impFilesPath = (new AssetFileManager(CheckActivity.this).getFilePath()) + "/";
         wffrjni.SetRecognitionThreshold(wffrjni.GetRecognitionThreshold());
         wffrsinglecamapp.setAssetPath(impFilesPath);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
+    }
+
+    private void addRst(String srcPath, String rstPath) {
+        recognizeAdapter.addBean(srcPath, rstPath);
+        rcvRst.smoothScrollToPosition(recognizeAdapter.getItemCount());
     }
 
     public void encrollFromFile(View view) {
         String encrollFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "encroll";
 //        btEncroll.setEnabled(false);
-        inRecognize=false;
+        inRecognize = false;
         if (inEncroll) {
             inEncroll = false;
         } else {
@@ -76,7 +93,7 @@ public class CheckActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         inEncroll = false;
-        inRecognize=false;
+        inRecognize = false;
     }
 
     public int getEncrollFace() {
@@ -152,8 +169,8 @@ public class CheckActivity extends AppCompatActivity {
     }
 
     public void startCheck(View view) {
-        inEncroll=false;
-        Thread thread=new Thread(new RecognizeRunnable());
+        inEncroll = false;
+        Thread thread = new Thread(new RecognizeRunnable());
         thread.start();
 
     }
@@ -170,18 +187,18 @@ public class CheckActivity extends AppCompatActivity {
             if (dir == null || !dir.exists()) {
                 return;
             }
-            int count=0;
-            File[] imgfs = dir.listFiles();
+            int count = 0;
+            final File[] imgfs = dir.listFiles();
             if (imgfs == null || imgfs.length == 0) return;
             int amount = 0;
             for (int i = 0; i < imgfs.length && inRecognize; i++) {
-                File f = imgfs[i];
+                final File f = imgfs[i];
                 final String filename = f.getName();
                 if (!filename.endsWith(".jpg") || !f.exists())
                     continue;
                 String enName = filename.substring(0, filename.indexOf('.'));
                 boolean rst = false;
-                Log.d("--", "run: "+enName);
+                Log.d("--", "run: " + enName);
                 try {
                     rst = 0 == wffrsinglecamapp.runRecognizeFromJpegFile(f.getAbsolutePath());
 
@@ -196,10 +213,18 @@ public class CheckActivity extends AppCompatActivity {
                     String[] names = wffrsinglecamapp.getNames();
                     String name = "";
                     if (names != null) {
-                        for (String st : names) {
-                            if (!TextUtils.isEmpty(st)&&st.startsWith(enName.trim().substring(0,enName.indexOf('_')))) {
+                        for (final String st : names) {
+                            if (!TextUtils.isEmpty(st) && st.startsWith(enName.trim().substring(0, enName.indexOf('_')))) {
                                 count++;
-                                Log.d("recognize------", "name: " + st+" == "+enName+"  "+count);
+                                Log.d("recognize------", "name: " + st + " == " + enName + "  " + count);
+                                final int finalCount = count;
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        tvRst.setText(finalCount + "/" + imgfs.length);
+                                        addRst(f.getAbsolutePath(), TO_ENCROLL_DIR_PATH + st.trim() + ".jpg");
+                                    }
+                                });
                                 break;
                             }
                         }
