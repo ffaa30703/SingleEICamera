@@ -27,6 +27,7 @@ public class CheckActivity extends AppCompatActivity {
     private static final String TO_RECONIGE_DIR_PATH = "/mnt/sdcard/recognize/";
     private int faceCount;
     private RecognizeAdapter recognizeAdapter;
+    private RecognizeAdapter unrecognizeAdapter;
 
 
     public static void startActivity(Context context) {
@@ -38,6 +39,7 @@ public class CheckActivity extends AppCompatActivity {
     private TextView tvRst;
     private boolean inEncroll = false;
     RecyclerView rcvRst;
+    RecyclerView rcvUnRst;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,12 @@ public class CheckActivity extends AppCompatActivity {
         rcvRst.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recognizeAdapter = new RecognizeAdapter();
         rcvRst.setAdapter(recognizeAdapter);
+
+
+        rcvUnRst = findViewById(R.id.rcv_unrecognize);
+        rcvUnRst.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        unrecognizeAdapter = new RecognizeAdapter();
+        rcvUnRst.setAdapter(unrecognizeAdapter);
 
 
         String impFilesPath = (new AssetFileManager(CheckActivity.this).getFilePath()) + "/";
