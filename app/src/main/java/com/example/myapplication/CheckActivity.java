@@ -23,8 +23,8 @@ import com.wf.wffrsinglecamapp;
 import java.io.File;
 
 public class CheckActivity extends AppCompatActivity {
-    private static final String TO_ENCROLL_DIR_PATH = "/mnt/sdcard/face/";
-    private static final String TO_RECONIGE_DIR_PATH = "/mnt/sdcard/recognize/";
+    private static final String TO_ENCROLL_DIR_PATH = "/storage/4C48080C4807F38C/face/";
+    private static final String TO_RECONIGE_DIR_PATH = "/storage/4C48080C4807F38C/recognize/";
     private int faceCount;
     private RecognizeAdapter recognizeAdapter;
     private RecognizeAdapter unrecognizeAdapter;
@@ -67,8 +67,8 @@ public class CheckActivity extends AppCompatActivity {
 
     }
 
-    private void addRst(String srcPath, String rstPath) {
-        recognizeAdapter.addBean(srcPath, rstPath);
+    private void addRst(String srcPath,String srcName, String rstPath,String rstName) {
+        recognizeAdapter.addBean(srcPath,srcName, rstPath,rstName);
         rcvRst.smoothScrollToPosition(recognizeAdapter.getItemCount());
     }
 
@@ -204,7 +204,7 @@ public class CheckActivity extends AppCompatActivity {
                 final String filename = f.getName();
                 if (!filename.endsWith(".jpg") || !f.exists())
                     continue;
-                String enName = filename.substring(0, filename.indexOf('.'));
+                final String enName = filename.substring(0, filename.indexOf('.'));
                 boolean rst = false;
                 Log.d("--", "run: " + enName);
                 try {
@@ -230,7 +230,7 @@ public class CheckActivity extends AppCompatActivity {
                                     @Override
                                     public void run() {
                                         tvRst.setText(finalCount + "/" + imgfs.length);
-                                        addRst(f.getAbsolutePath(), TO_ENCROLL_DIR_PATH + st.trim() + ".jpg");
+                                        addRst(f.getAbsolutePath(), enName,TO_ENCROLL_DIR_PATH + st.trim() + ".jpg",st.trim());
                                     }
                                 });
                                 break;
