@@ -85,8 +85,8 @@ public class AssetFileManager {
         String filePath = null;
         try {
 
-          //  String basePath = context.getFilesDir().getAbsolutePath();
-            String basePath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/singlecam";
+            String basePath = context.getExternalFilesDir(null)+"/singlecam";
+//            String basePath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/singlecam";
             filePath = basePath;
             File dir = new File(basePath);
             if (!dir.isDirectory()) {
