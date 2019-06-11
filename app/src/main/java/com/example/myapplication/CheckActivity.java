@@ -23,10 +23,10 @@ import com.wf.wffrsinglecamapp;
 import java.io.File;
 
 public class CheckActivity extends AppCompatActivity {
-    //    private static final String TO_ENCROLL_DIR_PATH = "/mnt/sdcard/face/";
-//    private static final String TO_RECONIGE_DIR_PATH = "/mnt/sdcard/recognize/";
-    private static final String TO_ENCROLL_DIR_PATH = "/storage/4C48080C4807F38C/face/";
-    private static final String TO_RECONIGE_DIR_PATH = "/storage/4C48080C4807F38C/recognize/";
+        private static final String TO_ENCROLL_DIR_PATH = "/mnt/sdcard/face/";
+    private static final String TO_RECONIGE_DIR_PATH = "/mnt/sdcard/recognize/";
+//    private static final String TO_ENCROLL_DIR_PATH = "/storage/4C48080C4807F38C/face/";
+//    private static final String TO_RECONIGE_DIR_PATH = "/storage/4C48080C4807F38C/recognize/";
     private int faceCount;
     private RecognizeAdapter recognizeAdapter;
     private RecognizeAdapter unrecognizeAdapter;

@@ -10,6 +10,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.myapplication.Utils.AssetFileManager;
+import com.wf.wffrjni;
+import com.wf.wffrsinglecamapp;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -28,7 +32,17 @@ public class MainActivity extends AppCompatActivity {
         }else {
             Toast.makeText(this, "No camera connected to this device ", Toast.LENGTH_SHORT).show();
         }
+        copyAssets();
 
+    }
+    private void copyAssets() {
+        if (!new AssetFileManager(this).checkFilesExist()) {
+            (new AssetFileManager(this)).copyFilesFromAssets();//copies files from assests to cache folder
+        }
+        String impFilesPath = (new AssetFileManager(MainActivity.this).getFilePath()) + "/";
+        wffrjni.SetRecognitionThreshold(wffrjni.GetRecognitionThreshold());
+
+        wffrsinglecamapp.setAssetPath(impFilesPath);
     }
 
     @Override
