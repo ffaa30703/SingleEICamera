@@ -49,13 +49,15 @@ public class RecognizeAdapter extends RecyclerView.Adapter<RecognizeAdapter.RstH
                 Glide.with(rstHolder.itemView.getContext()).load(rstFile).into(rstHolder.ivRst);
         }
 
-        rstHolder.tvIndex.setText("------"+i+"------>");
-        rstHolder.tvSrcName.setText(rstBean.srcName);
-        rstHolder.tvRstName.setText(rstBean.rstName);
+        rstHolder.tvIndex.setText("------" + i + "------>");
+        if (!TextUtils.isEmpty(rstBean.srcName))
+            rstHolder.tvSrcName.setText(rstBean.srcName);
+        if (!TextUtils.isEmpty(rstBean.rstName))
+            rstHolder.tvRstName.setText(rstBean.rstName);
     }
 
-    public void addBean(String srcPath,String srcName, String rstPath,String rstName){
-        rstBeans.add(new RstBean(srcPath,srcName,rstPath,rstName));
+    public void addBean(String srcPath, String srcName, String rstPath, String rstName) {
+        rstBeans.add(new RstBean(srcPath, srcName, rstPath, rstName));
         notifyDataSetChanged();
     }
 
@@ -76,17 +78,16 @@ public class RecognizeAdapter extends RecyclerView.Adapter<RecognizeAdapter.RstH
             super(itemView);
             ivRecognize = itemView.findViewById(R.id.iv_torecognize);
             ivRst = itemView.findViewById(R.id.iv_rst);
-            tvSrcName=itemView.findViewById(R.id.tv_src_name);
-            tvRstName=itemView.findViewById(R.id.tv_rst_name);
-            tvIndex=itemView.findViewById(R.id.tv_index);
+            tvSrcName = itemView.findViewById(R.id.tv_src_name);
+            tvRstName = itemView.findViewById(R.id.tv_rst_name);
+            tvIndex = itemView.findViewById(R.id.tv_index);
         }
     }
 
 
-
     static class RstBean {
 
-        public RstBean( String srcPath,String srcName, String rstPath, String rstName) {
+        public RstBean(String srcPath, String srcName, String rstPath, String rstName) {
             this.srcName = srcName;
             this.srcPath = srcPath;
             this.rstPath = rstPath;

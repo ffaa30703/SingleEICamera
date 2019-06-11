@@ -23,6 +23,8 @@ import com.wf.wffrsinglecamapp;
 import java.io.File;
 
 public class CheckActivity extends AppCompatActivity {
+    //    private static final String TO_ENCROLL_DIR_PATH = "/mnt/sdcard/face/";
+//    private static final String TO_RECONIGE_DIR_PATH = "/mnt/sdcard/recognize/";
     private static final String TO_ENCROLL_DIR_PATH = "/storage/4C48080C4807F38C/face/";
     private static final String TO_RECONIGE_DIR_PATH = "/storage/4C48080C4807F38C/recognize/";
     private int faceCount;
@@ -67,9 +69,14 @@ public class CheckActivity extends AppCompatActivity {
 
     }
 
-    private void addRst(String srcPath,String srcName, String rstPath,String rstName) {
-        recognizeAdapter.addBean(srcPath,srcName, rstPath,rstName);
+    private synchronized void addRst(String srcPath, String srcName, String rstPath, String rstName) {
+        recognizeAdapter.addBean(srcPath, srcName, rstPath, rstName);
         rcvRst.smoothScrollToPosition(recognizeAdapter.getItemCount());
+    }
+
+    private synchronized void addUnReRst(String srcPath, String srcName) {
+        unrecognizeAdapter.addBean(srcPath, srcName, null, null);
+        rcvUnRst.smoothScrollToPosition(recognizeAdapter.getItemCount());
     }
 
     public void encrollFromFile(View view) {
@@ -215,7 +222,7 @@ public class CheckActivity extends AppCompatActivity {
 
                 }
 
-
+                boolean isre = false;
                 if (rst) {
                     wffrsinglecamapp.getFaceCoordinates();
                     String[] names = wffrsinglecamapp.getNames();
@@ -223,14 +230,14 @@ public class CheckActivity extends AppCompatActivity {
                     if (names != null) {
                         for (final String st : names) {
                             if (!TextUtils.isEmpty(st) && st.startsWith(enName.trim().substring(0, enName.indexOf('_')))) {
-                                count++;
+                                isre = true;
                                 Log.d("recognize------", "name: " + st + " == " + enName + "  " + count);
                                 final int finalCount = count;
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        tvRst.setText(finalCount + "/" + imgfs.length);
-                                        addRst(f.getAbsolutePath(), enName,TO_ENCROLL_DIR_PATH + st.trim() + ".jpg",st.trim());
+                                        addRst(f.getAbsolutePath(), enName, TO_ENCROLL_DIR_PATH + st.trim() + ".jpg", st.trim());
+                                        tvRst.setText(recognizeAdapter.getItemCount() + "/" + imgfs.length);
                                     }
                                 });
                                 break;
@@ -238,13 +245,13 @@ public class CheckActivity extends AppCompatActivity {
                         }
                     }
                 }
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                    }
-                });
+                if (!isre)
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            addUnReRst(f.getAbsolutePath(), enName);
+                        }
+                    });
 
             }
 

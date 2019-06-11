@@ -11,13 +11,12 @@
         android:id="@+id/bt_encroll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:onClick="encrollFromFile"
         android:text="录入"
         app:layout_constraintEnd_toStartOf="@+id/button3"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:layout_editor_absoluteY="8dp" />
 
     <Button
         android:id="@+id/button3"
@@ -34,10 +33,10 @@
         android:id="@+id/tv_facecount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="32dp"
         android:text="0"
         android:textSize="30sp"
+        app:layout_constraintEnd_toStartOf="@+id/tv_rst"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bt_encroll" />
@@ -64,38 +63,47 @@
         app:layout_constraintStart_toEndOf="@+id/tv_facecount"
         app:layout_constraintTop_toTopOf="@+id/tv_facecount" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rcv_recognize_rst"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_rst" />
-
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rcv_unrecognize"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:maxHeight="100dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <TextView
-        android:id="@+id/textView"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="5dp"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:background="#AAAAAA"
+        android:layout_marginBottom="8dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rcv_recognize_rst" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_facecount">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rcv_recognize_rst"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="#AAAAAA"
+            app:layout_constraintBottom_toTopOf="@+id/rcv_unrecognize"
+            tools:layout_editor_absoluteX="8dp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rcv_unrecognize"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="#88FF00"
+            android:maxHeight="100dp"
+            android:layout_weight="1"
+          />
+
+
+
+
+    </LinearLayout>
+
+
+
 </android.support.constraint.ConstraintLayout>
