@@ -17,8 +17,10 @@ import java.io.OutputStream;
 
 public class AssetFileManager {
     private Context context;
-    private static String filesAssests[] = {"b1.bin","b11tc.bin","b12tc.bin","s3tc.bin","s4tc.bin","p0.bin",
-            "p1tc.bin", "p2tc.bin", "p3tc.bin", "p4tc.bin", "q31tn.bin", "q32tn.bin"};
+//    private static String filesAssests[] = {"b1.bin","b11tc.bin","b12tc.bin","s3tc.bin","s4tc.bin","p0.bin",
+////            "p1tc.bin", "p2tc.bin", "p3tc.bin", "p4tc.bin", "q31tn.bin", "q32tn.bin"};
+private static String filesAssests[] = {"a1.bin","a2.bin","b1.bin","b11.bin","b12.bin","p0.bin","p1.bin","p2.bin",
+        "p3.bin", "p4.bin", "q311p.bin", "q321n.bin", "s3.bin", "s4.bin"};
 
     public AssetFileManager(Context context) {
         this.context = context;
